@@ -2215,16 +2215,16 @@ StartRecomp:
 		iDumpBlock(s_pCurBlockEx->startpc, s_pCurBlockEx->size*4, s_pCurBlockEx->fnptr, s_pCurBlockEx->x86size);
 	}
 #endif
-	DbgCon.WriteLn(Color_Gray, "dumpBlock %x %x %x %x %s",
-		s_pCurBlockEx->startpc,
-		s_pCurBlockEx->startpc + (s_pCurBlockEx->size * 4),
-		s_pCurBlockEx->fnptr,
-		s_pCurBlockEx->x86size,
-		symbolMap.GetLabelString(s_pCurBlockEx->startpc).c_str());
-	
 	Perf::ee.map(s_pCurBlockEx->fnptr, s_pCurBlockEx->x86size, s_pCurBlockEx->startpc);
 
 	recPtr = xGetPtr();
+	
+	Console.WriteLn("dumpBlock %x %x %x %x %s",
+		s_pCurBlockEx->startpc,
+		s_pCurBlockEx->size * 4,
+		s_pCurBlockEx->fnptr,
+		s_pCurBlockEx->x86size,
+		symbolMap.GetLabelString(s_pCurBlockEx->startpc).c_str());
 
 	pxAssert( (g_cpuHasConstReg&g_cpuFlushedConstReg) == g_cpuHasConstReg );
 
