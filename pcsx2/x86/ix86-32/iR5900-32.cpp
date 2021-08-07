@@ -105,7 +105,7 @@ static EEINST* s_psaveInstInfo = NULL;
 static u32 s_savenBlockCycles = 0;
 
 #ifdef PCSX2_DEBUG
-static u32 dumplog = 0;
+static u32 dumplog = 1;
 #else
 #define dumplog 0
 #endif
