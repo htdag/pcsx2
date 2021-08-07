@@ -1467,6 +1467,11 @@ StartRecomp:
 	Perf::iop.map(s_pCurBlockEx->fnptr, s_pCurBlockEx->x86size, s_pCurBlockEx->startpc);
 
 	recPtr = xGetPtr();
+	Console.WriteLn("dumpBlockIOP %x %x %x %x",
+		s_pCurBlockEx->startpc,
+		(s_pCurBlockEx->size * 4),
+		s_pCurBlockEx->fnptr,
+		s_pCurBlockEx->x86size);
 
 	pxAssert( (g_psxHasConstReg&g_psxFlushedConstReg) == g_psxHasConstReg );
 
