@@ -43,6 +43,7 @@
 #include "Utilities/MemsetFast.inl"
 #include "Utilities/Perf.h"
 
+#include "DebugTools/SymbolMap.h"
 
 using namespace x86Emitter;
 using namespace R5900;
@@ -105,7 +106,7 @@ static EEINST* s_psaveInstInfo = NULL;
 static u32 s_savenBlockCycles = 0;
 
 #ifdef PCSX2_DEBUG
-static u32 dumplog = 1;
+static u32 dumplog = 0;
 #else
 #define dumplog 0
 #endif
@@ -2214,6 +2215,13 @@ StartRecomp:
 		iDumpBlock(s_pCurBlockEx->startpc, s_pCurBlockEx->size*4, s_pCurBlockEx->fnptr, s_pCurBlockEx->x86size);
 	}
 #endif
+	DbgCon.WriteLn(Color_Gray, "dumpBlock %x %x %x %x %s",
+		s_pCurBlockEx->startpc,
+		s_pCurBlockEx->startpc + (s_pCurBlockEx->size * 4),
+		s_pCurBlockEx->fnptr,
+		s_pCurBlockEx->x86size,
+		symbolMap.GetLabelString(s_pCurBlockEx->startpc).c_str());
+	
 	Perf::ee.map(s_pCurBlockEx->fnptr, s_pCurBlockEx->x86size, s_pCurBlockEx->startpc);
 
 	recPtr = xGetPtr();
