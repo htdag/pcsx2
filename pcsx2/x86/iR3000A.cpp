@@ -40,6 +40,8 @@
 #include "Utilities/Perf.h"
 #include "DebugTools/Breakpoints.h"
 
+#include "DebugTools/SymbolMap.h"
+
 using namespace x86Emitter;
 
 extern u32 g_iopNextEventCycle;
@@ -1242,6 +1244,15 @@ static void __fastcall  PreBlockCheck( u32 blockpc )
 #endif
 }
 
+extern "C" __declspec(dllexport)
+void __cdecl iop_DoJIT(const char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	Console.WriteLn(fmt, args);
+	va_end(args);
+}
+
 static void __fastcall iopRecRecompile( const u32 startpc )
 {
 	u32 i;
@@ -1467,11 +1478,12 @@ StartRecomp:
 	Perf::iop.map(s_pCurBlockEx->fnptr, s_pCurBlockEx->x86size, s_pCurBlockEx->startpc);
 
 	recPtr = xGetPtr();
-	Console.WriteLn("dumpBlockIOP %x %x %x %x",
+	iop_DoJIT("dumpBlockIOP %x %x %x %x %s",
 		s_pCurBlockEx->startpc,
 		(s_pCurBlockEx->size * 4),
 		s_pCurBlockEx->fnptr,
-		s_pCurBlockEx->x86size);
+		s_pCurBlockEx->x86size,
+		symbolMap.GetLabelString(s_pCurBlockEx->startpc).c_str());
 
 	pxAssert( (g_psxHasConstReg&g_psxFlushedConstReg) == g_psxHasConstReg );
 
