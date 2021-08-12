@@ -1722,11 +1722,11 @@ void doPlace0Patches()
 }
 
 extern "C" __declspec(dllexport)
-void __cdecl ee_DoJIT(const char* fmt, ...)
+void __cdecl ee_DoJIT(const char* fmt, ...) // Console.WriteLn
 {
 	va_list args;
 	va_start(args, fmt);
-	Console.WriteLn(fmt, args);
+	Console.FormatV(fmt, args);
 	va_end(args);
 }
 
