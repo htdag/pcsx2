@@ -1245,11 +1245,11 @@ static void __fastcall  PreBlockCheck( u32 blockpc )
 }
 
 extern "C" __declspec(dllexport)
-void __cdecl iop_DoJIT(const char* fmt, ...)
+void __cdecl iop_DoJIT(const char* fmt, ...) // Console.WriteLn
 {
 	va_list args;
 	va_start(args, fmt);
-	Console.WriteLn(fmt, args);
+	Console.FormatV(fmt, args);
 	va_end(args);
 }
 
