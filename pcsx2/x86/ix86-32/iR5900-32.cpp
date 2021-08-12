@@ -1721,6 +1721,15 @@ void doPlace0Patches()
     ApplyLoadedPatches(PPT_ONCE_ON_LOAD);
 }
 
+extern "C" __declspec(dllexport)
+void __cdecl ee_DoJIT(const char* fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	Console.WriteLn(fmt, args);
+	va_end(args);
+}
+
 static void __fastcall recRecompile( const u32 startpc )
 {
 	u32 i = 0;
@@ -2219,7 +2228,7 @@ StartRecomp:
 
 	recPtr = xGetPtr();
 	
-	Console.WriteLn("dumpBlock %x %x %x %x %s",
+	ee_DoJIT("dumpBlock %x %x %x %x %s",
 		s_pCurBlockEx->startpc,
 		s_pCurBlockEx->size * 4,
 		s_pCurBlockEx->fnptr,
